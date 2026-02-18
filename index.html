@@ -99,7 +99,7 @@
             font-size:1rem; transition:all 0.2s; color:var(--text);
         }
         .theme-btn:hover { transform:scale(1.1); }
-        .hamburger { display:none; background:none; border:none; font-size:1.4rem; color:var(--text); padding:4px; }
+        .hamburger { display:none; background:none; border:none; font-size:1.4rem; color:var(--text); padding:4px; margin-left:auto; }
 
         /* HERO */
         .hero {
@@ -579,23 +579,23 @@
 
             /* Nav */
             nav a, nav .nav-cta, nav .theme-btn { display:none; }
-            .hamburger { display:block; }
+            .hamburger { display:block; position:relative; z-index:10000; }
 
-            /* Mobile nav drawer */
-            .mob-open #nav-links {
-                display:flex;
+            /* Mobile nav drawer - shown when header has mob-open class */
+            #site-header.mob-open #nav-links {
+                display:flex !important;
                 flex-direction:column;
                 position:fixed;
-                top:68px; left:0; right:0; bottom:0;
+                top:0; left:0; right:0; bottom:0;
                 background:var(--bg);
-                border-top:2px solid var(--accent);
-                padding:24px 20px;
-                gap:10px;
-                z-index:800;
+                border-top:none;
+                padding:100px 24px 40px;
+                gap:12px;
+                z-index:9999;
                 overflow-y:auto;
             }
-            .mob-open #nav-links a {
-                display:flex;
+            #site-header.mob-open #nav-links a {
+                display:flex !important;
                 align-items:center;
                 padding:16px 20px;
                 font-size:1rem;
@@ -604,13 +604,9 @@
                 background:var(--surface);
                 border:1px solid var(--border);
                 color:var(--text);
-                letter-spacing:0.01em;
             }
-            .mob-open #nav-links a:active {
-                background:var(--surface-2);
-            }
-            .mob-open #nav-links .theme-btn {
-                display:flex;
+            #site-header.mob-open #nav-links .theme-btn {
+                display:flex !important;
                 align-items:center;
                 justify-content:center;
                 width:100%;
@@ -621,8 +617,8 @@
                 font-size:1.1rem;
                 color:var(--text);
             }
-            .mob-open #nav-links .nav-cta {
-                display:flex;
+            #site-header.mob-open #nav-links .nav-cta {
+                display:flex !important;
                 align-items:center;
                 justify-content:center;
                 width:100%;

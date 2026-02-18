@@ -295,6 +295,36 @@
         .testi-name { font-weight:600; font-size:0.88rem; }
         .testi-role { font-size:0.78rem; color:var(--muted); }
 
+        /* DATA PRIVACY SECTION */
+        .privacy-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+            background:var(--border); border:1px solid var(--border);
+            border-radius:var(--radius-lg); overflow:hidden; margin-bottom:32px;
+        }
+        .privacy-card {
+            background:var(--bg); padding:36px 30px; transition:background 0.3s;
+        }
+        .privacy-card:hover { background:var(--surface-2); }
+        .privacy-icon {
+            font-size:1.8rem; margin-bottom:16px; display:block;
+        }
+        .privacy-card h3 {
+            font-family:var(--font-display); font-size:1.05rem; font-weight:700;
+            margin-bottom:10px; color:var(--text);
+        }
+        .privacy-card p { color:var(--muted); font-size:0.88rem; line-height:1.7; }
+        .privacy-banner {
+            display:flex; align-items:center; justify-content:center; gap:14px;
+            padding:20px 28px; border:1px solid rgba(0,232,122,0.2);
+            background:rgba(0,232,122,0.04); border-radius:var(--radius);
+            text-align:center;
+        }
+        .privacy-banner-icon { font-size:1.4rem; flex-shrink:0; }
+        .privacy-banner p { color:var(--muted); font-size:0.9rem; line-height:1.6; max-width:560px; }
+
+        @media(max-width:960px) { .privacy-grid { grid-template-columns:repeat(2,1fr); } }
+        @media(max-width:640px) { .privacy-grid { grid-template-columns:1fr; } .privacy-card { padding:24px 20px; } }
+
         /* FEEDBACK */
         .feedback-inner { max-width:640px; margin:0 auto; text-align:center; }
         .feedback-inner .section-sub { margin:0 auto 44px; }
@@ -905,6 +935,38 @@ Money<span style="color:var(--accent)">Health</span>
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <!-- DATA PRIVACY -->
+    <section id="privacy" style="background:var(--surface)">
+        <div class="container">
+            <div class="reveal" style="text-align:center; margin-bottom:60px;">
+                <span class="section-label">Data Privacy</span>
+                <h2 class="section-title">Your data stays<br>yours. Always.</h2>
+                <p class="section-sub" style="margin:0 auto;">We built MoneyHealth on a simple principle — your financial information is deeply personal. Here's our commitment to you.</p>
+            </div>
+
+            <div class="privacy-grid reveal">
+                <div class="privacy-card">
+                    <div class="privacy-icon">🚫</div>
+                    <h3>Zero Data Storage</h3>
+                    <p>Nothing you enter is ever saved to a server, database, or cloud. All calculations happen locally in your browser and vanish the moment you close the tab.</p>
+                </div>
+                <div class="privacy-card">
+                    <div class="privacy-icon">🔒</div>
+                    <h3>No Account Required</h3>
+                    <p>We never ask for your name, email, phone number, or any identifying information. You're completely anonymous every time you use MoneyHealth.</p>
+                </div>
+                <div class="privacy-card">
+                    <div class="privacy-icon">📵</div>
+                    <h3>No Third-Party Sharing</h3>
+                    <p>We don't sell, share, or trade your data with advertisers, brokers, or any third party — because we don't have any data to share in the first place.</p>
+                </div>
+
+            </div>
+
+
         </div>
     </section>
 

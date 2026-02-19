@@ -252,12 +252,13 @@
         .jargon-grid {
             display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:60px;
         }
-        .flip-card { height:220px; perspective:1000px; cursor:pointer; }
+        .flip-card { height:220px; perspective:1000px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
         .flip-inner {
             width:100%; height:100%; transform-style:preserve-3d;
             transition:transform 0.55s cubic-bezier(0.4,0.2,0.2,1); position:relative;
         }
-        .flip-card:hover .flip-inner { transform:rotateY(180deg); }
+        .flip-card:hover .flip-inner,
+        .flip-card.flipped .flip-inner { transform:rotateY(180deg); }
         .flip-front, .flip-back {
             position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
             border-radius:var(--radius); display:flex; flex-direction:column;
@@ -581,40 +582,51 @@
             nav a, nav .nav-cta, nav .theme-btn { display:none; }
             .hamburger { display:block; position:relative; z-index:10000; }
 
-            /* Mobile nav drawer - shown when header has mob-open class */
+            /* Compact dropdown drawer near hamburger */
             #site-header.mob-open #nav-links {
                 display:flex !important;
                 flex-direction:column;
                 position:fixed;
-                top:0; left:0; right:0; bottom:0;
-                background:var(--bg);
-                border-top:none;
-                padding:100px 24px 40px;
-                gap:12px;
+                top:68px; right:0;
+                width:72vw;
+                max-width:280px;
+                background:rgba(15, 19, 24, 0.92);
+                backdrop-filter:blur(16px);
+                -webkit-backdrop-filter:blur(16px);
+                border:1px solid var(--border);
+                border-radius:0 0 0 16px;
+                padding:16px 14px;
+                gap:8px;
                 z-index:9999;
-                overflow-y:auto;
+                box-shadow:-8px 8px 40px rgba(0,0,0,0.5);
             }
             #site-header.mob-open #nav-links a {
                 display:flex !important;
                 align-items:center;
-                padding:16px 20px;
-                font-size:1rem;
+                justify-content:flex-start;
+                padding:13px 16px;
+                font-size:0.95rem;
                 font-weight:600;
-                border-radius:12px;
-                background:var(--surface);
-                border:1px solid var(--border);
+                border-radius:10px;
+                background:rgba(255,255,255,0.05);
+                border:1px solid rgba(255,255,255,0.08);
                 color:var(--text);
+                text-align:left;
+            }
+            #site-header.mob-open #nav-links a:active {
+                background:rgba(0,232,122,0.1);
+                border-color:rgba(0,232,122,0.3);
             }
             #site-header.mob-open #nav-links .theme-btn {
                 display:flex !important;
                 align-items:center;
                 justify-content:center;
                 width:100%;
-                padding:14px 20px;
-                border-radius:12px;
-                background:var(--surface);
-                border:1px solid var(--border);
-                font-size:1.1rem;
+                padding:12px 16px;
+                border-radius:10px;
+                background:rgba(255,255,255,0.05);
+                border:1px solid rgba(255,255,255,0.08);
+                font-size:1rem;
                 color:var(--text);
             }
             #site-header.mob-open #nav-links .nav-cta {
@@ -622,12 +634,21 @@
                 align-items:center;
                 justify-content:center;
                 width:100%;
-                padding:16px 20px;
-                border-radius:12px;
-                font-size:1rem;
+                padding:13px 16px;
+                border-radius:10px;
+                font-size:0.95rem;
                 font-weight:700;
                 margin-top:4px;
-                box-shadow:0 0 20px var(--accent-glow);
+                box-shadow:0 0 16px var(--accent-glow);
+            }
+
+            /* Dim backdrop behind drawer */
+            #site-header.mob-open::after {
+                content:'';
+                position:fixed;
+                inset:0;
+                background:rgba(0,0,0,0.5);
+                z-index:9998;
             }
 
             /* Hero */
@@ -994,9 +1015,13 @@ Money<span style="color:var(--accent)">Health</span>
                 <h2 class="section-title">Shape what<br>we build next.</h2>
                 <p class="section-sub">Every feature in MoneyHealth was built from feedback like yours. Tell us what you need.</p>
                 <div id="form-wrap">
-                    <form class="feedback-form" id="feedback-form">
-                        <textarea id="fb-text" rows="4" placeholder="What would make your financial life easier? What do you want to learn?" required></textarea>
-                        <button type="submit" class="btn-primary">Send Feedback →</button>
+                    <form class="feedback-form" id="feedback-form" action="https://formspree.io/f/routganesh637@gmail.com" method="POST">
+                        <input type="hidden" name="_subject" value="💬 New MoneyHealth Feedback!">
+                        <input type="hidden" name="_next" value="">
+                        <input type="text" name="_gotcha" style="display:none">
+                        <textarea name="message" id="fb-text" rows="4" placeholder="What would make your financial life easier? What do you want to learn?" required></textarea>
+                        <input type="email" name="email" placeholder="Your email (optional — if you'd like a reply)" style="width:100%;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--font-body);font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+                        <button type="submit" class="btn-primary">Send to MoneyHealth →</button>
                     </form>
                 </div>
                 <div class="success-msg" id="success-msg">🚀 Thanks! We read every single message. You're helping build something real.</div>
@@ -1105,11 +1130,37 @@ $('years').addEventListener('input',   () => { $('years-lbl').textContent  = $('
 $('principal').addEventListener('input', calc);
 calc();
 
-/* FEEDBACK */
-document.getElementById('feedback-form').addEventListener('submit', e => {
+/* FLIP CARDS - tap support for mobile/iPhone */
+document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+    });
+});
+
+/* FEEDBACK - Formspree */
+const feedbackForm = document.getElementById('feedback-form');
+feedbackForm.addEventListener('submit', async e => {
     e.preventDefault();
-    $('form-wrap').style.display = 'none';
-    $('success-msg').style.display = 'block';
+    const btn = feedbackForm.querySelector('button[type="submit"]');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+        const res = await fetch(feedbackForm.action, {
+            method: 'POST',
+            body: new FormData(feedbackForm),
+            headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+            document.getElementById('form-wrap').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        } else {
+            btn.textContent = 'Failed — try again';
+            btn.disabled = false;
+        }
+    } catch {
+        btn.textContent = 'Failed — try again';
+        btn.disabled = false;
+    }
 });
 </script>
 </body>

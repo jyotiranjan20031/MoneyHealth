@@ -101,6 +101,147 @@
         .theme-btn:hover { transform:scale(1.1); }
         .hamburger { display:none; background:none; border:none; font-size:1.4rem; color:var(--text); padding:4px; margin-left:auto; }
 
+        /* ============================================================
+           CREATIVE ANIMATIONS
+        ============================================================ */
+
+        /* 1. Hero headline word-by-word entrance */
+        .hero h1 { animation: heroFadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both; animation-delay:0.1s; }
+        .hero p   { animation: heroFadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both; animation-delay:0.3s; }
+        .hero-actions { animation: heroFadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both; animation-delay:0.5s; }
+        .hero-trust   { animation: heroFadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both; animation-delay:0.65s; }
+        @keyframes heroFadeUp {
+            from { opacity:0; transform:translateY(30px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        /* 2. Gradient text shimmer on headline */
+        .hero h1 .grad {
+            background-size: 200% auto;
+            background-image: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 40%, #fff 60%, var(--accent) 100%);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+
+        /* 3. Ambient moving orb behind hero */
+        .hero-orb {
+            position:absolute; border-radius:50%; pointer-events:none; z-index:0;
+            filter:blur(80px); animation:orbMove 12s ease-in-out infinite alternate;
+        }
+        .hero-orb.o1 { width:500px; height:500px; background:rgba(0,232,122,0.08); top:-100px; left:-80px; animation-delay:0s; }
+        .hero-orb.o2 { width:400px; height:400px; background:rgba(0,190,245,0.07); bottom:-60px; right:-60px; animation-delay:4s; }
+        .hero-orb.o3 { width:300px; height:300px; background:rgba(0,232,122,0.05); top:40%; left:40%; animation-delay:8s; }
+        @keyframes orbMove {
+            0%   { transform: translate(0,0) scale(1); }
+            50%  { transform: translate(40px,-40px) scale(1.15); }
+            100% { transform: translate(-30px,30px) scale(0.9); }
+        }
+
+        /* 4. Stat pills — staggered pop-in on load */
+        .stat-pill { animation: pillPop 0.7s cubic-bezier(0.34,1.56,0.64,1) both, float 5s ease-in-out infinite 0.8s; }
+        .stat-pill.s1 { animation-delay:0.4s, 0.8s; }
+        .stat-pill.s2 { animation-delay:0.6s, 2.4s; }
+        .stat-pill.s3 { animation-delay:0.8s, 4s; }
+        @keyframes pillPop {
+            from { opacity:0; transform:scale(0.6); }
+            to   { opacity:1; transform:scale(1); }
+        }
+
+        /* 5. Nav logo subtle pulse on load */
+        .logo { animation: logoPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both 0.2s; }
+        @keyframes logoPop {
+            from { opacity:0; transform:scale(0.85); }
+            to   { opacity:1; transform:scale(1); }
+        }
+
+        /* 6. Why cards — border glow on hover */
+        .why-card {
+            position:relative; overflow:hidden;
+        }
+        .why-card::before {
+            content:''; position:absolute; inset:0;
+            background:linear-gradient(135deg, rgba(0,232,122,0.05), transparent);
+            opacity:0; transition:opacity 0.4s;
+        }
+        .why-card:hover::before { opacity:1; }
+        .why-card:hover { border-left:2px solid var(--accent); }
+
+        /* 7. Button magnetic shimmer */
+        .btn-primary { position:relative; overflow:hidden; }
+        .btn-primary::after {
+            content:''; position:absolute;
+            top:-50%; left:-60%; width:40%; height:200%;
+            background:rgba(255,255,255,0.18);
+            transform:skewX(-20deg);
+            transition:left 0.5s ease;
+        }
+        .btn-primary:hover::after { left:130%; }
+
+        /* 8. Section label slide-in */
+        .section-label {
+            display:inline-block;
+            animation:none; /* applied via reveal observer */
+        }
+        .reveal.visible .section-label {
+            animation: labelSlide 0.5s ease both;
+        }
+        @keyframes labelSlide {
+            from { opacity:0; transform:translateX(-16px); }
+            to   { opacity:1; transform:translateX(0); }
+        }
+
+        /* 9. Flip card — bounce on flip */
+        .flip-inner { transition:transform 0.6s cubic-bezier(0.34,1.2,0.64,1); }
+
+        /* 10. Privacy / Why icon bounce on hover */
+        .why-icon, .privacy-icon { transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1); display:inline-block; }
+        .why-card:hover .why-icon { transform:scale(1.25) rotate(-8deg); }
+        .privacy-card:hover .privacy-icon { transform:scale(1.3) rotate(8deg); }
+
+        /* 11. Rocket cards — pulse connector dot */
+        .rkt-card::after { animation:dotPulse 2.5s ease-in-out infinite; }
+        @keyframes dotPulse {
+            0%,100% { box-shadow:0 0 0 0 var(--accent-glow); }
+            50%      { box-shadow:0 0 0 6px rgba(0,232,122,0); }
+        }
+
+        /* 12. Footer links underline slide */
+        .footer-links ul a { position:relative; }
+        .footer-links ul a::after {
+            content:''; position:absolute; bottom:-2px; left:0;
+            width:0; height:1px; background:var(--accent);
+            transition:width 0.3s ease;
+        }
+        .footer-links ul a:hover::after { width:100%; }
+
+        /* 13. Scroll-to-top smooth highlight on active nav */
+        nav a { position:relative; }
+        nav a::after {
+            content:''; position:absolute; bottom:-4px; left:50%; right:50%;
+            height:2px; background:var(--accent); border-radius:2px;
+            transition:left 0.3s, right 0.3s;
+        }
+        nav a:hover::after { left:12px; right:12px; }
+
+        /* 14. Mobile tap ripple on buttons */
+        @media(max-width:640px) {
+            .btn-primary:active { transform:scale(0.96); transition:transform 0.1s; }
+            .btn-ghost:active   { transform:scale(0.96); transition:transform 0.1s; }
+            .rkt-card:active    { transform:scale(0.97); transition:transform 0.1s; }
+            .flip-card:active .flip-front { transform:scale(0.97); }
+        }
+
+        /* 15. Cursor glow (desktop only) */
+        #cursor-glow {
+            position:fixed; width:320px; height:320px; border-radius:50%;
+            background:radial-gradient(circle, rgba(0,232,122,0.06) 0%, transparent 70%);
+            pointer-events:none; z-index:9998; transform:translate(-50%,-50%);
+            transition:left 0.08s linear, top 0.08s linear;
+            display:none;
+        }
+        @media(hover:hover) { #cursor-glow { display:block; } }
+
         /* HERO */
         .hero {
             min-height:90vh; display:flex; align-items:center; justify-content:center;
@@ -246,7 +387,56 @@
         }
         .breakdown-item .bl { font-size:0.86rem; color:var(--muted); }
         .breakdown-item .bv { font-family:var(--font-display); font-weight:700; font-size:0.95rem; }
-        .calc-disclaimer { font-size:0.76rem; color:var(--muted); margin-top:20px; line-height:1.6; }
+        /* PIE CHART - Premium */
+        .pie-wrap {
+            margin-top:24px;
+            padding:20px 22px;
+            background:linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border:1px solid var(--border);
+            border-radius:16px;
+            display:grid;
+            grid-template-columns:150px 1fr;
+            gap:20px;
+            align-items:center;
+        }
+        .pie-canvas-wrap {
+            position:relative; width:150px; height:150px; flex-shrink:0;
+        }
+        #pie-chart { display:block; }
+        .pie-centre-text {
+            position:absolute; inset:0;
+            display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
+            pointer-events:none;
+        }
+        .pie-centre-pct {
+            font-size:1.55rem; font-weight:800; letter-spacing:-0.04em;
+            background:linear-gradient(135deg, #00E87A, #00BEF5);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            line-height:1;
+        }
+        .pie-centre-label {
+            font-size:0.6rem; color:var(--muted); text-transform:uppercase;
+            letter-spacing:0.12em; margin-top:5px; font-weight:600;
+        }
+        .pie-legend { display:flex; flex-direction:column; gap:10px; }
+        .pie-legend-item {
+            display:flex; align-items:center; gap:10px;
+            padding:12px 14px;
+            background:rgba(255,255,255,0.03);
+            border:1px solid rgba(255,255,255,0.07);
+            border-radius:12px;
+            transition:border-color 0.3s, background 0.3s;
+        }
+        .pie-legend-item:hover {
+            background:rgba(255,255,255,0.06);
+            border-color:rgba(255,255,255,0.14);
+        }
+        .pie-dot {
+            width:9px; height:9px; border-radius:50%; flex-shrink:0;
+        }
+        .pie-legend-label { font-size:0.8rem; color:var(--muted); flex:1; font-weight:500; }
+        .pie-legend-pct { font-weight:800; font-size:1rem; letter-spacing:-0.02em; }
 
         /* JARGON */
         .jargon-grid {
@@ -722,6 +912,9 @@
 </head>
 <body>
 
+<!-- CURSOR GLOW (desktop) -->
+<div id="cursor-glow"></div>
+
 
 
 <!-- HEADER -->
@@ -745,6 +938,9 @@ Money<span style="color:var(--accent)">Health</span>
 
     <!-- HERO -->
     <section class="hero" id="top">
+        <div class="hero-orb o1"></div>
+        <div class="hero-orb o2"></div>
+        <div class="hero-orb o3"></div>
         <div class="stat-pill s1"><strong>2 min</strong>to your health score</div>
         <div class="stat-pill s2"><strong>100%</strong>free & private</div>
         <div class="stat-pill s3"><strong>0 data</strong>stored ever</div>
@@ -836,16 +1032,34 @@ Money<span style="color:var(--accent)">Health</span>
                 <div class="calc-result">
                     <div class="calc-result-label">Future Portfolio Value</div>
                     <div class="calc-result-value" id="result-val">₹0</div>
-                    <div class="growth-bar-wrap">
-                        <div class="growth-bar-labels"><span>Amount Invested</span><span>Returns</span></div>
-                        <div class="growth-bar-track"><div class="growth-bar-fill" id="grow-bar" style="width:50%"></div></div>
-                    </div>
                     <div class="calc-breakdown">
                         <div class="breakdown-item"><span class="bl">Total Invested</span><span class="bv" id="b-invested">₹0</span></div>
                         <div class="breakdown-item"><span class="bl">Total Returns</span><span class="bv" id="b-returns" style="color:var(--accent)">₹0</span></div>
-                        <div class="breakdown-item"><span class="bl">Return Multiple</span><span class="bv" id="b-multiple">0×</span></div>
                     </div>
-                    <p class="calc-disclaimer">* Annually compounded returns assumed. Past performance ≠ future results. Educational purposes only.</p>
+
+                    <!-- PIE CHART - Premium -->
+                    <div class="pie-wrap">
+                        <div class="pie-canvas-wrap">
+                            <canvas id="pie-chart" width="150" height="150"></canvas>
+                            <div class="pie-centre-text">
+                                <div class="pie-centre-pct" id="pie-centre-pct">0%</div>
+                                <div class="pie-centre-label">Returns</div>
+                            </div>
+                        </div>
+                        <div class="pie-legend">
+                            <div class="pie-legend-item">
+                                <span class="pie-dot" style="background:#00E87A; box-shadow:0 0 8px rgba(0,232,122,0.6);"></span>
+                                <span class="pie-legend-label">Invested</span>
+                                <span class="pie-legend-pct" id="pie-inv-pct" style="color:#00E87A;">0%</span>
+                            </div>
+                            <div class="pie-legend-item">
+                                <span class="pie-dot" style="background:#00BEF5; box-shadow:0 0 8px rgba(0,190,245,0.6);"></span>
+                                <span class="pie-legend-label">Returns</span>
+                                <span class="pie-legend-pct" id="pie-ret-pct" style="color:#00BEF5;">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="calc-disclaimer" style="font-size:0.62rem;opacity:0.5;">* Annually compounded returns assumed. Past performance ≠ future results. Educational purposes only.</p>
                 </div>
             </div>
         </div>
@@ -1067,6 +1281,13 @@ Money<span style="color:var(--accent)">Health</span>
 </footer>
 
 <script>
+/* CURSOR GLOW */
+const cursorGlow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top  = e.clientY + 'px';
+});
+
 /* THEME */
 const themeBtn = document.getElementById('theme-btn');
 const htmlEl = document.documentElement;
@@ -1108,6 +1329,127 @@ function fmtINR(n) {
     if (n >= 1e5) return '₹' + (n/1e5).toFixed(2) + 'L';
     return '₹' + Math.round(n).toLocaleString('en-IN');
 }
+
+/* ── ANIMATED PIE CHART ── */
+let pieState = { inv: 50, ret: 50 };
+let pieAnim = null;
+
+function drawPieFrame(investedPct, returnsPct) {
+    const canvas = document.getElementById('pie-chart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W/2, cy = H/2, r = cx - 14, thick = 22;
+    ctx.clearRect(0, 0, W, H);
+
+    const slices = [
+        { pct: investedPct, color1:'#00E87A', color2:'#00C868', glow:'rgba(0,232,122,0.5)' },
+        { pct: returnsPct,  color1:'#00BEF5', color2:'#0090D8', glow:'rgba(0,190,245,0.5)' }
+    ];
+
+    /* Track ring */
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, 2*Math.PI);
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = thick + 4;
+    ctx.stroke();
+
+    let startAngle = -Math.PI/2;
+    slices.forEach(slice => {
+        if (slice.pct <= 0) return;
+        const sweep = (slice.pct/100) * 2 * Math.PI;
+        const endAngle = startAngle + sweep;
+
+        ctx.save();
+        ctx.shadowColor = slice.glow;
+        ctx.shadowBlur = 18;
+
+        const grd = ctx.createLinearGradient(
+            cx + r * Math.cos(startAngle), cy + r * Math.sin(startAngle),
+            cx + r * Math.cos(endAngle),   cy + r * Math.sin(endAngle)
+        );
+        grd.addColorStop(0, slice.color1);
+        grd.addColorStop(1, slice.color2);
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, startAngle, endAngle);
+        ctx.strokeStyle = grd;
+        ctx.lineWidth = thick;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+        ctx.restore();
+
+        /* End cap dot */
+        ctx.beginPath();
+        ctx.arc(cx + r*Math.cos(endAngle), cy + r*Math.sin(endAngle), thick/2-2, 0, 2*Math.PI);
+        ctx.fillStyle = slice.color2;
+        ctx.shadowColor = slice.glow;
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        startAngle = endAngle;
+    });
+
+    /* Centre bg */
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - thick/2 - 4, 0, 2*Math.PI);
+    ctx.fillStyle = '#0D1117';
+    ctx.fill();
+}
+
+function animatePie(targetInv, targetRet) {
+    if (pieAnim) cancelAnimationFrame(pieAnim);
+    const startInv = pieState.inv, startRet = pieState.ret;
+    const duration = 500;
+    const startTime = performance.now();
+
+    function easeInOut(t) { return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+    function step(now) {
+        const t = Math.min((now - startTime) / duration, 1);
+        const e = easeInOut(t);
+        const curInv = startInv + (targetInv - startInv) * e;
+        const curRet = startRet + (targetRet - startRet) * e;
+
+        drawPieFrame(curInv, curRet);
+
+        /* Animate centre % */
+        const centreEl = document.getElementById('pie-centre-pct');
+        if (centreEl) centreEl.textContent = Math.round(curRet) + '%';
+
+        /* Animate legend percentages */
+        const invEl = document.getElementById('pie-inv-pct');
+        const retEl = document.getElementById('pie-ret-pct');
+        if (invEl) invEl.textContent = Math.round(curInv) + '%';
+        if (retEl) retEl.textContent = Math.round(curRet) + '%';
+
+        if (t < 1) pieAnim = requestAnimationFrame(step);
+        else { pieState.inv = targetInv; pieState.ret = targetRet; }
+    }
+    pieAnim = requestAnimationFrame(step);
+}
+
+/* ── Animate a number value ── */
+let numAnims = {};
+function animateValue(elId, targetVal, formatter) {
+    if (numAnims[elId]) cancelAnimationFrame(numAnims[elId]);
+    const el = document.getElementById(elId);
+    if (!el) return;
+    const startVal = parseFloat(el.dataset.raw || 0) || 0;
+    el.dataset.raw = targetVal;
+    const duration = 450;
+    const startTime = performance.now();
+    function easeOut(t) { return 1 - Math.pow(1-t, 3); }
+    function step(now) {
+        const t = Math.min((now - startTime) / duration, 1);
+        const cur = startVal + (targetVal - startVal) * easeOut(t);
+        el.textContent = formatter(cur);
+        if (t < 1) numAnims[elId] = requestAnimationFrame(step);
+    }
+    numAnims[elId] = requestAnimationFrame(step);
+}
+
 function calc() {
     const P = parseFloat($('principal').value) || 0;
     const M = parseFloat($('monthly').value) || 0;
@@ -1116,13 +1458,22 @@ function calc() {
     const FV = P * Math.pow(1+r,n) + (r>0 ? M * ((Math.pow(1+r,n)-1)/r) : M*n);
     const invested = P + M*n;
     const returns = FV - invested;
-    const mult = invested > 0 ? FV/invested : 0;
-    const pct = FV > 0 ? Math.min(Math.max(Math.round(returns/FV*100),5),93) : 50;
-    $('result-val').textContent  = fmtINR(FV);
-    $('b-invested').textContent  = fmtINR(invested);
-    $('b-returns').textContent   = fmtINR(returns);
-    $('b-multiple').textContent  = mult.toFixed(1) + '×';
-    $('grow-bar').style.width    = pct + '%';
+    const invPct = FV > 0 ? Math.round((invested / FV) * 100) : 50;
+    const retPct = 100 - invPct;
+
+    /* Animate main result value */
+    animateValue('result-val', FV, fmtINR);
+    animateValue('b-invested', invested, fmtINR);
+    animateValue('b-returns',  returns,  fmtINR);
+
+    /* Subtle pulse on result */
+    const resEl = $('result-val');
+    resEl.style.transform = 'scale(1.06)';
+    resEl.style.transition = 'transform 0.2s cubic-bezier(0.34,1.56,0.64,1)';
+    setTimeout(() => { resEl.style.transform = 'scale(1)'; }, 200);
+
+    /* Animate pie */
+    animatePie(invPct, retPct);
 }
 $('monthly').addEventListener('input', () => { $('monthly-lbl').textContent = '₹'+parseInt($('monthly').value).toLocaleString('en-IN'); calc(); });
 $('rate').addEventListener('input',    () => { $('rate-lbl').textContent   = $('rate').value + '%'; calc(); });

@@ -854,8 +854,34 @@
             .why-card { padding:28px 20px; }
 
             /* Calculator */
-            .calc-inputs, .calc-result { padding:28px 20px; }
-            .calc-result-value { font-size:2.2rem; }
+            .calc-inputs, .calc-result { padding:24px 16px; }
+            .calc-result-value { font-size:2rem; }
+            .calc-result-label { font-size:0.7rem; }
+
+            /* Pie chart — stack vertically on mobile */
+            .pie-wrap {
+                grid-template-columns:1fr;
+                gap:16px;
+                padding:16px;
+            }
+            .pie-canvas-wrap {
+                width:120px; height:120px;
+                margin:0 auto;
+            }
+            #pie-chart {
+                width:120px !important; height:120px !important;
+            }
+            .pie-centre-pct { font-size:1.2rem; }
+            .pie-centre-label { font-size:0.55rem; }
+            .pie-legend { gap:8px; }
+            .pie-legend-item { padding:10px 12px; }
+            .pie-legend-label { font-size:0.78rem; }
+            .pie-legend-pct { font-size:0.92rem; }
+
+            /* Breakdown items */
+            .breakdown-item { padding:10px 12px; }
+            .breakdown-item .bl { font-size:0.82rem; }
+            .breakdown-item .bv { font-size:0.88rem; }
 
             /* Jargon */
             .jargon-grid { grid-template-columns:1fr 1fr; gap:10px; }
@@ -1338,8 +1364,14 @@ function drawPieFrame(investedPct, returnsPct) {
     const canvas = document.getElementById('pie-chart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+
+    /* Use display size to match canvas resolution */
+    const size = canvas.offsetWidth || canvas.width;
+    canvas.width = size;
+    canvas.height = size;
+
     const W = canvas.width, H = canvas.height;
-    const cx = W/2, cy = H/2, r = cx - 14, thick = 22;
+    const cx = W/2, cy = H/2, r = cx - 10, thick = Math.max(14, cx * 0.28);
     ctx.clearRect(0, 0, W, H);
 
     const slices = [
